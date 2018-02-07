@@ -29,11 +29,9 @@ public class HelloController {
 	public String twitter(@RequestParam (defaultValue = "TajnikiSpringMVC4") String search,
 			Model model ) {
 			SearchResults searchResult = twitter.searchOperations().search(search);
-			List<String> tweets = searchResult.getTweets()
-				.stream()
-				.map(Tweet::getText)
-				.collect(Collectors.toList());
-			model.addAttribute("tweets", tweets);
+		
+			model.addAttribute("tweets", searchResult.getTweets());
+			model.addAttribute("search", search);
 			
 			return "tweets";
 	}
