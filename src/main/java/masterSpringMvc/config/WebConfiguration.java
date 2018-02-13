@@ -3,6 +3,7 @@ package masterSpringMvc.config;
 import java.time.LocalDate;
 import java.util.Locale;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import masterSpringMvc.date.USLocalDateFormatter;
 
 @Configuration
+@EnableConfigurationProperties({PictureUploadProperties.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
