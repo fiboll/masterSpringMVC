@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+<<<<<<< HEAD
 import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+=======
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+>>>>>>> cb3856b7124065386634dab23021b0a108a411de
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+<<<<<<< HEAD
 import masterSpringMvc.config.PictureUploadProperties;
 
 @Controller
@@ -33,6 +39,11 @@ public class PictureUploadController {
 		anonymousPicture = uploadProperties.getAnonymousPicture();
 	}
 
+=======
+@Controller
+public class PictureUploadController {
+	public static final Resource PICTURES_DIR = new FileSystemResource("./pictures");
+>>>>>>> cb3856b7124065386634dab23021b0a108a411de
 
 	@RequestMapping("upload")
 	public String uploadPage() {
@@ -48,13 +59,18 @@ public class PictureUploadController {
 		}
 
 		String filename = file.getOriginalFilename();
+<<<<<<< HEAD
 		File tempFile = File.createTempFile("pic", getFileExtension(filename), picturesDir.getFile());
+=======
+		File tempFile = File.createTempFile("pic", getFileExtension(filename), PICTURES_DIR.getFile());
+>>>>>>> cb3856b7124065386634dab23021b0a108a411de
 		try (InputStream in = file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
 			IOUtils.copy(in, out);
 		}
 
 		return "profile/uploadPage";
 	}
+<<<<<<< HEAD
 	
 	@RequestMapping(value = "/uploadedPicture")
 	public void getUploadedPicture(HttpServletResponse response) throws IOException {
@@ -77,6 +93,10 @@ public class PictureUploadController {
 
 	private static String getFileExtension(String name) {
 
+=======
+
+	private static String getFileExtension(String name) {
+>>>>>>> cb3856b7124065386634dab23021b0a108a411de
 		return name.substring(name.lastIndexOf("."));
 	}
 	
