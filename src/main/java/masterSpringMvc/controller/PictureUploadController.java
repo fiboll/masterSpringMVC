@@ -1,29 +1,20 @@
 package masterSpringMvc.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLConnection;
-import java.nio.file.Path;
-
-import javax.servlet.http.HttpServletResponse;
-
+import masterSpringMvc.config.PictureUploadProperties;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import masterSpringMvc.config.PictureUploadProperties;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLConnection;
 
 @Controller
 @SessionAttributes("picturePath")
@@ -63,8 +54,15 @@ public class PictureUploadController {
 
 	@RequestMapping(value = "/uploadedPicture")
 	public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath") Resource picturePath) throws IOException {
-		response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
-		IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
+		response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.getFilename()));
+		IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
+	}
+
+	@ExceptionHandler(IOException.class)
+	public ModelAndView handleIOException(IOException exception) {
+		ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
+		modelAndView.addObject("error", exception.getMessage());
+		return modelAndView;
 	}
 
 	private Resource copyFileToPictures(MultipartFile file) throws IOException {
