@@ -1,6 +1,8 @@
 package masterSpringMvc.controller;
 
 import masterSpringMvc.config.PictureUploadProperties;
+import masterSpringMvc.profile.UserProfileSession;
+
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,13 +27,15 @@ public class PictureUploadController {
 	private final Resource picturesDir;
 	private final Resource anonymousPicture;
 	private final MessageSource messageSource;
+	private final UserProfileSession userProfileSession;
+
 
 	@Autowired
-	public PictureUploadController(PictureUploadProperties uploadProperties, MessageSource messageSource) {
+	public PictureUploadController(PictureUploadProperties uploadProperties, MessageSource messageSource, UserProfileSession userProfileSession) {
 		picturesDir = uploadProperties.getUploadPath();
 		anonymousPicture = uploadProperties.getAnonymousPicture();
 		this.messageSource = messageSource;
-
+		this.userProfileSession = userProfileSession;
 	}
 
 	@ModelAttribute("picturePath")
@@ -41,27 +45,32 @@ public class PictureUploadController {
 
 	@RequestMapping("upload")
 	public String uploadPage() {
-		return "profile/uploadPage";
+		return "profile/profilePage";
 	}
 
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/profile", params= {"upload"}, method = RequestMethod.POST)
 	public String onUpload(MultipartFile file, RedirectAttributes redirectAttrs, Model model) throws IOException {
 
 		if (file.isEmpty() || !isImage(file)) {
 			redirectAttrs.addFlashAttribute("error", "Niewłaściwy plik. Załaduj plik z obrazem.");
-			return "redirect:/upload";
+			return "redirect:/profile";
 		}
 
 		Resource picturePath = copyFileToPictures(file);
 		model.addAttribute("picturePath", picturePath);
-
-		return "profile/uploadPage";
+		userProfileSession.setPicturePath(picturePath);
+		return "redirect:/profile";
 	}
 
 	@RequestMapping(value = "/uploadedPicture")
-	public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath") Resource picturePath) throws IOException {
-		response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.getFilename()));
+	public void getUploadedPicture(HttpServletResponse response) throws IOException {
+		Resource picturePath = userProfileSession.getPicturePath();
+		if (picturePath == null) {
+			picturePath = anonymousPicture;
+		}
+		response.setHeader("Content-Type",	URLConnection.guessContentTypeFromName(picturePath.getFilename()));
 		IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
+
 	}
 
 	@RequestMapping("uploadError")

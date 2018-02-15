@@ -5,7 +5,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import masterSpringMvc.profile.UserProfileSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import masterSpringMvc.date.USLocalDateFormatter;
 import masterSpringMvc.profile.ProfileForm;
+import masterSpringMvc.profile.UserProfileSession;
 
 @Controller
 public class ProfileController {
@@ -48,14 +48,14 @@ public class ProfileController {
 			return "profile/profilePage";
 		}
 		
-		System.out.println("pomyślnie zapisany profil " + profileForm);
 		userProfileSession.saveForm(profileForm);
-		return "redirect:/profile";
+		return "redirect:/search/mixed;keywords=" + String.join(",",profileForm.getTastes());
+
 	}
 	
 	@RequestMapping(value = "/profile", params = {"addTaste"})
 	public String addRow(ProfileForm profileForm) {
-		profileForm.getTastes().add(null);
+		profileForm.addTaste(null);
 		return "profile/profilePage";
 	}
 	

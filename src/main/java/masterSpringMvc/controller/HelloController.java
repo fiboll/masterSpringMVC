@@ -1,6 +1,8 @@
 package masterSpringMvc.controller;
 
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +15,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import masterSpringMvc.profile.ProfileForm;
+import masterSpringMvc.profile.UserProfileSession;
+
 @Controller
 public class HelloController {
 	
 	@Autowired
 	private Twitter twitter;
 
+	private UserProfileSession userProfileSession;
+
+	@Autowired
+	public HelloController(UserProfileSession userProfileSession) {
+		this.userProfileSession = userProfileSession;
+	}
+	
 	@RequestMapping("/")
 	public String hello() {
-		return "searchPage";
+		return Optional.of(userProfileSession)
+				.map(UserProfileSession::toForm)
+				.map(ProfileForm::getTastes)
+				.map(l -> "redirect:/search/popular;keywords=".concat(String.join(",", l)))
+				.orElse("redirect:profile");
 	}
 	
 	@RequestMapping("/result")

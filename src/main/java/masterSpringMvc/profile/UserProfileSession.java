@@ -1,13 +1,16 @@
 package masterSpringMvc.profile;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by private on 14.02.18.
@@ -16,10 +19,19 @@ import java.util.List;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserProfileSession implements Serializable {
 
-    private String twitterHandle;
+	private static final long serialVersionUID = 4467604753094477724L;
+	private String twitterHandle;
     private String email;
     private LocalDate birthDate;
-    private List<String> tastes = new ArrayList<>();
+    private List<String> tastes;
+    private URL picturePath;
+    
+    public void setPicturePath(Resource picturePath) throws IOException {
+    	this.picturePath = picturePath.getURL();
+    }
+    public Resource getPicturePath() {
+	    return picturePath == null ? null : new  UrlResource(picturePath);
+    }
 
     public void saveForm(ProfileForm profileForm) {
         this.twitterHandle = profileForm.getTwitterHandle();

@@ -26,7 +26,14 @@ public class ProfileForm {
 	private LocalDate birthDate;
 	
 	@NotEmpty
-	private List<String> tastes = new ArrayList<>();
+	private List<String> tastes;
+	
+	public void addTaste(String taste) {
+		if (tastes == null) {
+			tastes = new ArrayList<>();
+		}
+		tastes.add(taste);
+	}
 	
 	@Override
 	public String toString() {

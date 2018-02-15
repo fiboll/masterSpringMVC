@@ -22,9 +22,7 @@ public class SearchController {
 	@RequestMapping("/search/{searchType}")
 	public ModelAndView search(@PathVariable String searchType, @MatrixVariable List<String> keywords) {
 		List<Tweet> tweets = searchService.search(searchType, keywords);
-		
-		System.out.println(tweets);
-		
+				
 		ModelAndView modelAndView = new ModelAndView("tweets");
 		modelAndView.addObject("tweets", tweets);
 		modelAndView.addObject("search", String.join(",", keywords));
