@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SearchControllerMockTest {
 
 	@Mock
-	private SearchService searchService;
+	private TwitterSearch searchService;
 
 	@InjectMocks
 	private SearchController searchController;
