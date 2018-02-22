@@ -37,7 +37,7 @@ public class HelloController {
 				.map(UserProfileSession::toForm)
 				.map(ProfileForm::getTastes)
 				.map(l -> "redirect:/search/popular;keywords=".concat(String.join(",", l)))
-				.orElse("redirect:profile");
+				.orElse("redirect:/profile");
 	}
 	
 	@RequestMapping("/result")
