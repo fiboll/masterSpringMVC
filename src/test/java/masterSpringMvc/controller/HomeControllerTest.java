@@ -1,10 +1,9 @@
 package masterSpringMvc.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Arrays;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import masterSpringMvc.profile.ProfileForm;
-import masterSpringMvc.profile.UserProfileSession;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,14 +40,10 @@ public class HomeControllerTest {
 	
 	@Test
 	public void shouldRedirectToTastes() throws Exception {
-		MockHttpSession session = new MockHttpSession();
-		ProfileForm profileForm = new ProfileForm();
-		profileForm.setTastes(Arrays.asList("spring", "groovy"));
-		UserProfileSession userProfileSession = new UserProfileSession();
-		userProfileSession.saveForm(profileForm);
-		
-		session.setAttribute("scopedTarget.userProfileSession", userProfileSession);
-		
+		MockHttpSession session = new SessionBuilder()
+				.userTastes("spring", "groovy")
+				.build();
+				
 		mockMvc.perform(get("/").session(session))
 			.andExpect(status().isFound())
 			.andExpect(redirectedUrl("/search/mixed;keywords=spring,groovy"));
