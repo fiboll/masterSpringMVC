@@ -47,6 +47,14 @@ public class UserRepository {
 
 		userMap.remove(email);
 	}
+	
+	public void reset(User... users) {
+		userMap.clear();
+		for (User user : users) {
+			save(user);
+		}
+	}
+
 
 	public boolean exists(String email) {
 		return userMap.containsKey(email);

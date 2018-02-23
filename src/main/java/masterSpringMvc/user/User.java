@@ -10,6 +10,13 @@ public class User {
 	private LocalDate birthDate;
 	private List<String> tastes = new ArrayList<>();
 	
+	public User() {
+		super();
+	}
+	public User(String email) {
+		super();
+		this.email = email;
+	}
 	// Metody get i set dla wszystkich pól
 	public String getTwitterHandle() {
 		return twitterHandle;

@@ -23,7 +23,7 @@ public class StubTwitterSearchConfig {
 		tweet2.setUser(new TwitterProfile(0l, "", "", "", "", "", "", new Date()));
 		
 		return (searchType, keywords) -> Arrays.asList(
-			tweet2, tweet
+			tweet, tweet2
 		);
 	}
 
