@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +46,7 @@ public class UserApiController {
 	@RequestMapping(value="/user/{email}", method=RequestMethod.PUT)
 	public ResponseEntity<User> updateUser(@PathVariable String email, @RequestBody User user) throws EntityNotFoundException {
 		User updated = userRepository.update(email, user);
-		return new ResponseEntity<>(updated,HttpStatus.CREATED);
+		return new ResponseEntity<>(updated,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/user/{email}", method=RequestMethod.DELETE)

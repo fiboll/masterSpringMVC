@@ -1,4 +1,4 @@
-package masterSpringMvc.search;
+package masterSpringMvc.search.api;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import masterSpringMvc.MasterSpringMvcApplication;
+import masterSpringMvc.search.StubTwitterSearchConfig;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {
