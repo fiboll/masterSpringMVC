@@ -36,5 +36,4 @@ public class APISecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated();
 	}
 
-
 }
