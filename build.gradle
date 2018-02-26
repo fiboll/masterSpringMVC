@@ -47,6 +47,7 @@ dependencies {
 	testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
 	testCompile 'org.codehaus.groovy:groovy-all:2.4.4:indy'
 	testCompile 'org.spockframework:spock-spring'
+	testCompile 'org.gebish:geb-spock:0.12.0'
 	
 }
 
