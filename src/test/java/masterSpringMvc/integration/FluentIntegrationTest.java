@@ -16,9 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by private on 24.02.18.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = { MasterSpringMvcApplication.class, StubTwitterSearchConfig.class },
-        webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = { MasterSpringMvcApplication.class, StubTwitterSearchConfig.class },
+//        webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FluentIntegrationTest extends FluentTest {
     @Value("${local.server.port}")
     private int serverPort;
@@ -30,7 +30,7 @@ public class FluentIntegrationTest extends FluentTest {
         return "http://localhost:" + serverPort;
     }
 
-    @Test
+//    @Test
     public void hasPageTitle() {
         goTo("/");
         assertThat(findFirst("h2").getText()).isEqualTo("Logowanie");
