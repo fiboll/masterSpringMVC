@@ -39,6 +39,6 @@ class HomeControllerSpec {
 		then: "Jestem kierowany na stronę profilu"
 		response
 			.andExpect(status().isFound())
-			.andExpect(redirectedUrl("/profil2e"))
+			.andExpect(redirectedUrl("/profile"))
 	}
 }
