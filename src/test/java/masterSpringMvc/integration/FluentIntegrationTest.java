@@ -2,8 +2,12 @@ package masterSpringMvc.integration;
 
 
  import masterSpringMvc.MasterSpringMvcApplication;
-import masterSpringMvc.search.StubTwitterSearchConfig;
+ import masterSpringMvc.page.LoginPage;
+ import masterSpringMvc.page.ProfilePage;
+ import masterSpringMvc.page.SearchResultPage;
+ import masterSpringMvc.search.StubTwitterSearchConfig;
  import org.fluentlenium.adapter.FluentTest;
+ import org.fluentlenium.core.annotation.Page;
  import org.junit.Assert;
  import org.junit.Test;
  import org.junit.runner.RunWith;
@@ -34,30 +38,36 @@ public class FluentIntegrationTest extends FluentTest {
         return "http://localhost:" + serverPort;
     }
 
+    @Page
+    private LoginPage loginPage;
+
+    @Page
+    private ProfilePage profilePage;
+
+    @Page
+    private SearchResultPage searchResultPage;
+
     @Test
     public void hasPageTitle() {
         goTo("/");
-        assertThat(findFirst("h2").getText()).isEqualTo("Logowanie");
-        Assert.assertEquals("Logowanie", findFirst("h2").getText());
+        loginPage.isAt();
     }
 
     @Test
     public void shouldBeRedirectedAfterFillingForm() {
         goTo("/");
-        takeScreenShot("loginForm.jpg");
-        find("button", withName("twitterSignin")).click();
-        assertThat(findFirst("h2").getText()).isEqualTo("Twój profil");
-        fill("#twitterHandle").with("programista");
-        fill("#email").with("programista@adrespoczty.pl");
-        fill("#birthDate").with("1987-03-19");
-        find("button", withName("addTaste")).click();
-        fill("#tastes0").with("spring");
-        find("button", withName("save")).click();
+        loginPage.isAt();
+        loginPage.login();
 
-        takeScreenShot();
+        profilePage.isAt();
 
-        assertThat(findFirst("h2").getText()).isEqualTo("Wyniki wyszukiwania spring");
-        assertThat(findFirst("ul.collection").find("li")).hasSize(2);
+        profilePage.fillInfos("programista", "programista@adrespoczty.pl","1987-03-19");
+        profilePage.addTaste("spring");
+        profilePage.saveProfile();
+
+        //takeScreenShot();
+        searchResultPage.isAt("spring");
+        assertThat(searchResultPage.getNumberOfResults()).isEqualTo(2);
     }
 
 }
