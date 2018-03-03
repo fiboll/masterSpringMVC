@@ -17,9 +17,9 @@ import static org.fluentlenium.core.filter.FilterConstructor.withName;
 /**
  * Created by private on 24.02.18.
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = { MasterSpringMvcApplication.class, StubTwitterSearchConfig.class },
-//        webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = { MasterSpringMvcApplication.class, StubTwitterSearchConfig.class },
+        webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FluentIntegrationTest extends FluentTest {
     @Value("${local.server.port}")
     private int serverPort;
@@ -34,7 +34,7 @@ public class FluentIntegrationTest extends FluentTest {
         return "http://localhost:" + serverPort;
     }
 
-//    @Test
+    @Test
     public void hasPageTitle() {
         goTo("/");
         assertThat(findFirst("h2").getText()).isEqualTo("Logowanie");
@@ -44,6 +44,7 @@ public class FluentIntegrationTest extends FluentTest {
     @Test
     public void shouldBeRedirectedAfterFillingForm() {
         goTo("/");
+        takeScreenShot("loginForm.jpg");
         find("button", withName("twitterSignin")).click();
         assertThat(findFirst("h2").getText()).isEqualTo("Twój profil");
         fill("#twitterHandle").with("programista");
