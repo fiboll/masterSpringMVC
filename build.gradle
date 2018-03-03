@@ -10,7 +10,7 @@ buildscript {
 	}
 }
 
-apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
@@ -39,12 +39,17 @@ dependencies {
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
+	compile 'org.springframework.boot:spring-boot-starter-cache'
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	testCompile 'com.jayway.jsonpath:json-path'
 	testCompile 'org.assertj:assertj-core:3.0.0'
 	testCompile 'org.fluentlenium:fluentlenium-assertj:0.10.3'
 	testCompile 'com.codeborne:phantomjsdriver:1.2.1'
 	testCompile 'org.seleniumhq.selenium:selenium-java:2.45.0'
+	testCompile 'org.codehaus.groovy:groovy-all:2.4.4:indy'
+	testCompile 'org.spockframework:spock-spring'
+	testCompile 'org.gebish:geb-spock:0.12.0'
+	
 }
 
 

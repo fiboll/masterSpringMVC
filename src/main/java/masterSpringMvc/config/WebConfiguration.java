@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -76,6 +77,15 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		return objectMapper;
 	}
+	
+	@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		// To tylko przykład
+		registry.addResourceHandler("/img/**")
+			.addResourceLocations("classpath:/static/images/")
+			.setCachePeriod(12);
+	}
+
 	
 	@Bean
 	public Docket userApi() {
