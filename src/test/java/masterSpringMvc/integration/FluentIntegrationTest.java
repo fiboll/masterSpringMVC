@@ -13,6 +13,7 @@ import masterSpringMvc.search.StubTwitterSearchConfig;
  import org.springframework.boot.test.context.SpringBootTest;
  import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.fluentlenium.core.filter.FilterConstructor.withName;
 /**
  * Created by private on 24.02.18.
  */
@@ -22,10 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FluentIntegrationTest extends FluentTest {
     @Value("${local.server.port}")
     private int serverPort;
+
     @Override
     public WebDriver getDefaultDriver() {
         return new PhantomJSDriver();
     }
+
+    @Override
     public String getDefaultBaseUrl() {
         return "http://localhost:" + serverPort;
     }
@@ -35,6 +39,24 @@ public class FluentIntegrationTest extends FluentTest {
         goTo("/");
         assertThat(findFirst("h2").getText()).isEqualTo("Logowanie");
         Assert.assertEquals("Logowanie", findFirst("h2").getText());
+    }
+
+    @Test
+    public void shouldBeRedirectedAfterFillingForm() {
+        goTo("/");
+        find("button", withName("twitterSignin")).click();
+        assertThat(findFirst("h2").getText()).isEqualTo("Twój profil");
+        fill("#twitterHandle").with("programista");
+        fill("#email").with("programista@adrespoczty.pl");
+        fill("#birthDate").with("1987-03-19");
+        find("button", withName("addTaste")).click();
+        fill("#tastes0").with("spring");
+        find("button", withName("save")).click();
+
+        takeScreenShot();
+
+        assertThat(findFirst("h2").getText()).isEqualTo("Wyniki wyszukiwania spring");
+        assertThat(findFirst("ul.collection").find("li")).hasSize(2);
     }
 
 }
