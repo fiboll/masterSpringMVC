@@ -10,6 +10,7 @@ class ProfilePage extends Page {
         addTasteButton { $('button', name: 'addTaste') }
         saveButton { $('button', name: 'save') }
     }
+
     void fillInfos(String twitterHandle, String email, String birthDate) {
         $("#twitterHandle") << twitterHandle
         $("#email") << email
@@ -20,6 +21,7 @@ class ProfilePage extends Page {
         addTasteButton.click()
         $("#tastes0") << taste
     }
+
     void saveProfile() {
         saveButton.click();
     }

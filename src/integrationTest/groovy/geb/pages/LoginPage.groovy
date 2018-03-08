@@ -1,7 +1,16 @@
 package geb.pages
 
-/**
- * Created by private on 08.03.18.
- */
-class LoginPage {
+import geb.Page
+
+class LoginPage extends Page {
+
+    static url = '/login'
+    static at = { $('h2', 0).text() == 'Logowanie' }
+    static content = {
+        twitterSignin { $('button', name: 'twitterSignin') }
+    }
+
+    void loginWithTwitter() {
+        twitterSignin.click()
+    }
 }
